@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -38,6 +37,10 @@ public class Tarefa {
 
 	@Column(name = "tar_concluida", nullable = false)
 	private Boolean concluida = false;
+	
+	@Column(name = "tar_data_conclusao", nullable = true)
+	@DateTimeFormat(pattern= "yyyy-MM-dd")
+	private Date dataConclusao;
 
 	public Long getId() {
 		return id;
@@ -77,6 +80,14 @@ public class Tarefa {
 
 	public void setConcluida(Boolean concluida) {
 		this.concluida = concluida;
+	}
+
+	public Date getDataConclusao() {
+		return dataConclusao;
+	}
+
+	public void setDataConclusao(Date dataConclusao) {
+		this.dataConclusao = dataConclusao;
 	}
 
 }

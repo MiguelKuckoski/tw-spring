@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+<title>Gerenciador de tarefas - Registrar</title>
+</head>
+<body>
+	<Script src="/webjars/jquery/3.4.1/jquery.min.js"></Script>
+	<Script src="/webjars/bootstrap/js/bootstrap.min.js"></Script>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">Gerenciador de tarefas</a>
+	</nav>
+	
+	<div class="container">
+		<h3>Inserir novo usuario</h3>
+		<form class="form-horizontal" action="/registration" method="post" th:object="${usuario}">
+			<div class="row">
+				<div class="form-group col-md-6">
+					<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('email')}">
+						<label th:errors="*{email}" class="validation-message"></label>
+					</div>
+					<label>E-mail</label>
+					<input type="text" class="form-control" th:field="*{email}">
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('senha')}">
+						<label th:errors="*{senha}" class="validation-message"></label>
+					</div>
+					<label>Senha</label> 
+					<input type="password" class="form-control" th:field="*{senha}">
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Salvar</button>
+		</form>
+	</div>
+
+</body>
+</html>

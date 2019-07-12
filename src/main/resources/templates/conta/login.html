@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>Gerenciador de tarefas - login</title>
+<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">Gerenciador de tarefas</a>
+	</nav>
+
+	<div class="container">
+		<h3>Login</h3>
+		<form class="form-horizontal" action="/login" method="post">
+			<div class="form-group">
+				<div class="col-md-9">
+					<input type="text" class="form-control" placeholder="E-mail" name="email">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-9">
+					<input type="password" class="form-control" placeholder="Senha" name="senha">
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary">Login</button>
+			</div>
+			<div class="form-group">
+				<div class="col-md-9">
+					<div class="alert alert-danger" role="alert" th:if="${param.error}">
+						Não foi possivel fazer login.
+					</div>
+				</div>
+			</div>
+			<div class="form-group"> 
+				<span> Não possui conta? <a href="/registration">Registre-se aqui</a></span>
+			</div>		
+		</form>
+	</div>
+	<Script src="/webjars/jquery/3.4.1/jquery.min.js"></Script>
+	<Script src="/webjars/bootstrap/js/bootstrap.min.js"></Script>
+</body>
+</html>
