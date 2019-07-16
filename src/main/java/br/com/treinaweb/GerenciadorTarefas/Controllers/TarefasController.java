@@ -2,6 +2,7 @@ package br.com.treinaweb.GerenciadorTarefas.Controllers;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.treinaweb.GerenciadorTarefas.Models.Tarefa;
+import br.com.treinaweb.GerenciadorTarefas.Models.Usuario;
 import br.com.treinaweb.GerenciadorTarefas.Repositorios.IRepositorioTarefa;
+import br.com.treinaweb.GerenciadorTarefas.Servicos.ServicoUsuario;
 
 @Controller
 @RequestMapping("/tarefas")
@@ -22,12 +25,16 @@ public class TarefasController {
 
 	@Autowired
 	private IRepositorioTarefa repositorioTarefa;
+	
+	@Autowired
+	private ServicoUsuario servicoUsuario;
 
 	@GetMapping("/listar")
-	public ModelAndView list() {
+	public ModelAndView list(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/tarefas/listar");
-		mv.addObject("tarefas", repositorioTarefa.findAll());
+		String email = request.getUserPrincipal().getName();
+		mv.addObject("tarefas", repositorioTarefa.carregarTarefasPorUsuario(email));
 
 		return mv;
 	}
@@ -42,7 +49,7 @@ public class TarefasController {
 	}
 
 	@PostMapping("/inserir")
-	public ModelAndView inserir(@Valid Tarefa tarefa, BindingResult result) {
+	public ModelAndView inserir(@Valid Tarefa tarefa, BindingResult result, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		if (tarefa.getDataExpiracao() == null) {
 			result.rejectValue("dataExpiracao", "tarefa.dataExpiracaoInvalida",
@@ -57,6 +64,9 @@ public class TarefasController {
 			mv.setViewName("/tarefas/inserir");
 			mv.addObject(tarefa);
 		} else {
+			String email = request.getUserPrincipal().getName();
+			Usuario usuario = servicoUsuario.encontrarPorEmail(email);
+			tarefa.setUsuario(usuario);
 			mv.setViewName("redirect:/tarefas/listar");
 			repositorioTarefa.save(tarefa);
 		}
